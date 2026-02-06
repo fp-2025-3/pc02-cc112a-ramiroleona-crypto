@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 using namespace std;
 
 const int N = 5;
@@ -50,6 +51,43 @@ int main () {
         {1, 2, 3, 4, 5},
         {9, 8, 7, 6, 5}
     };
+
+    bool fila_5_dominante = esFilaDominante(M, 4);
+    if (fila_5_dominante){
+        cout << "La fila 5 SI ";
+    }
+
+    else {
+        cout << "La fila 5 NO ";
+    }
+
+    cout << "es fila dominante\n";
+
+    int columnas_criticas = contarColumnasCriticas(M);
+
+    cout << "La matriz tiene " << columnas_criticas << " columnas criticas\n";
+
+    bool Es_Escalonada = esMatrizEscalonada(M);
+
+    if (Es_Escalonada){
+        cout << "La matriz SI ";
+    }
+
+    else {
+        cout << "La matriz NO ";
+    }
+
+    cout << "es escalonada\n";
+
+    int valor_nucleo = valorNucleo (M);
+
+    if (valor_nucleo != -1){
+        cout << "El valor nucleo de la matriz es " << valor_nucleo;
+    }
+
+    else {
+        cout << "La matriz no tiene nucleo";
+    }
 
     return 0;
 }
@@ -104,15 +142,90 @@ int contarColumnasCriticas(int (*M)[N]){
 }
 
 bool esMatrizEscalonada(int (*M)[N]){
-
-    int indices_nulos;
-
+    int primer_indice = -1;
+    //recorremos cada fila y ubicamos al primer elemento no nulo
     for (int i = 0; i < N; i++){
-        
-    }
+        int indice_nulo = -1;
+        for (int j = 0; j < N; j++){
+            if (*(*(M+i)+j) != 0){
+                indice_nulo = j;
+                break;
+            }
+        }
 
+        //suponiendo que el inidice nulo no se actualiza porque todos los elementos eran 0:
+        if (indice_nulo != -1){
+            //si el indice_nulo es menor o igual al almacenado, entonces no es escalonada
+            if (indice_nulo <= primer_indice){
+                return false;
+            }
+            else {
+                primer_indice = indice_nulo;
+            }
+        }
+    }
+    return true;
 }
 
 int valorNucleo(int (*M)[N]){
+    /*
+    De acuerdo con la definicion de valor nucleo, este sera unico. Veamos el caso para una matriz 2x2:
+    a b
+    c d
+    Si suponemos que b y c son nucleos simultaneos, se cumple:
+    a < b < d y d < c < a
+    Por transitividad, esto conduce a lo siguiente:
+    a < b < d < c < a => a < a, lo cual es contradictorio
+    
+    Partiendo de que dos nucleos no podrian estar en la misma fila o columna, podriamos asemejar nuestro analisis
+    al de una matriz 2 x 2 de la siguiente forma:
+    
+    a ... b
+    .     .
+    .     . 
+    .     .
+    c ... d
 
+    Si quisieramos indicar que b y c son nucleos, el analisis previo arroja la misma contradiccion.
+    Con ello en claro, podemos estar seguros de detener las iteraciones en 
+    cuanto hallemos un nucleo.
+    */
+
+    //empezaremos encontrando el maximo de una fila, y luego verificamos si es el minimo de su columna
+    for (int i = 0; i < N; i++){
+        int maximo_fila = - INT_MAX; //para almacenar el primer maximo de la fila
+        bool es_maximo = false; //para asegurar que el maximo sea absoluto
+        int columna;
+
+        for (int j = 0; j < N; j++){
+            //verificamos que no sean iguales
+            if (*(*(M+i)+j) == maximo_fila){
+                es_maximo = false;
+            }
+            
+            //con esto ubicamos el maximo elemento, pero corremos el riesgo de que este repetido
+            if (*(*(M+i)+j) > maximo_fila){
+                columna = j; //almacenamos la columna
+                maximo_fila = *(*(M+i)+j);
+                es_maximo = true;
+            }
+        }
+
+        if (es_maximo){
+            bool es_minimo = true;
+
+            for (int k = 0; k < N; k++){
+                if (k != i && maximo_fila >= *(*(M+k)+columna)){
+                    es_minimo = false;
+                    break;
+                }
+            }
+
+            if (es_minimo){
+                return maximo_fila;
+            }
+        }
+    }
+
+    return -1;
 }

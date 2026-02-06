@@ -29,43 +29,76 @@ char * leerFrase (){
     char temp[100];
 
     cout << "Ingrese una frase: ";
-    cin.getline(temp, 1000);
+    //damos lectura a la frase
+    cin.getline(temp, 100);
+
+    //calculamos su longitud
     int len = strlen(temp);
+
+    //creamos dinamicamente el arreglo para almacenar uno a uno
     char *frase = new char[len+1];
-    for (int i = 0; i < len + 1; i++){
+    for (int i = 0; i < len; i++){
         *(frase+i) = *(temp+i);
     }
+
+    //aniadimos el caracter nulo manualmente
+    *(frase + len) = '\0';
 
     return frase;
 }
 
 char * normalizarFrase (char *frase){
-    char temp[100];
-    char *p = frase;
-    int i = 0; 
+    int len = strlen(frase);
+    char *temp = new char [len + 1];
+    int i = 0; //este indice lo usamos para movernos en la cadena
+    int j = 0; //este otro servira para calcular la longitud de la frase normalizada
 
-    while (*p != '\0'){
-        if (!isspace(*p)){
-            temp[i] = tolower(*p);
+    //corresponde analizar todos los casos posibles, incluyendo multiples espacios
+
+    while (frase[i] != '\0'){
+
+        //si el caracter actual no es un espacio
+        while (frase[i] != '\0' && !isspace(frase[i])){
+            temp[j] = tolower(frase[i]);
             i++;
+            j++;
         }
 
-        if (isspace(*p) && p == frase) {
-            continue;
+        /*
+        Para una frase como "     Hola   Mundo ", el bucle avanzaría hasta ubicarse en H, donde almacenaria
+        la palabra Hola en minuscula, hasa encontrarse con 3 espacios consecutivos.
+        Para dicho caso, sería conveniente introducir una variable auxiliar que convierta todos los espacios
+        en uno solo.
+        */
+
+        if (i == 0 && isspace(frase[i])){
+            while (isspace(frase[i])){
+                i++;
+            }
         }
 
-        else {
-            temp[i] = ' ';
-            i++;
+        if (i != 0 && isspace(frase[i])){
+
+           
+            while (isspace(frase[i])){
+                //actualizamos el indice hasta llegar a la siguiente letra o al nulo
+                i++;
+            }
+
+            //verificamos que no llegamos al nulo
+            if (frase[i] != '\0'){
+                temp[j] = ' ';
+                j++;
+            }
+
         }
-        p++;
     }
 
-    temp[i] = '\0';
+    temp[j] = '\0';
 
-    char *normalizada = new char[i+1];
+    char *normalizada = new char[j+1];
     strcpy(normalizada, temp);
-
+    delete [] temp;
     return normalizada;
 }
 
@@ -152,16 +185,19 @@ int main () {
 
     char *normalizada = normalizarFrase(frase);//debo liberar memoria
 
-    int cantidad = contarPalabras(frase);
+    int cantidad = contarPalabras(normalizada);
 
     char **palabras = separarPalabras(normalizada, cantidad);
 
     mostrarPalabras(palabras, cantidad);
 
+    //mostramos la frase normalizada
+    cout << "Frase normalizada: " << normalizada;
+
     LiberarMemoria (palabras, cantidad);
 
-    delete frase;
-    delete normalizada;
+    delete [] frase;
+    delete [] normalizada;
     frase = nullptr;
     normalizada = nullptr;
 
