@@ -1,3 +1,3 @@
 ##Ejercicio 1
 
-![Salida1] (Imagenes/imagen1.png)
+![salida 1](imagen1.png)
