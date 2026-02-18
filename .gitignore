@@ -16,7 +16,7 @@
 
 # Carpetas de build
 build/
-output/
+input/
 # cmake-build-*/
 
 # Archivos temporales
