@@ -12,7 +12,7 @@ Problema 2:
 
 Problema 3:
     Salida 1
-    ![](imagenes/PC4_PROBLEMA3_SALIDA1 copy.png)
+    ![](imagenes/PC4_PROBLEMA3_SALIDA1.png)
     Salida 2
     ![](imagenes/PC4_PROBLEMA3_SALIDA2.png)
 
