@@ -24,16 +24,16 @@ int main () {
     p[1].coeficientes = new int [2];
     p[2].coeficientes = new int [3];
 
-    p[0].coeficientes[0] = 1;
-    p[0].coeficientes[1] = 0;
-    p[0].coeficientes[2] = 3;
+    p[0].coeficientes[0] = 8;
+    p[0].coeficientes[1] = 2;
+    p[0].coeficientes[2] = 2;
 
-    p[1].coeficientes[0] = -4;
-    p[1].coeficientes[1] = 5;
+    p[1].coeficientes[0] = -3;
+    p[1].coeficientes[1] = -5;
 
-    p[2].coeficientes[0] = 3;
+    p[2].coeficientes[0] = 6;
     p[2].coeficientes[1] = 0;
-    p[2].coeficientes[2] = 1;
+    p[2].coeficientes[2] = 8;
 
     Polinomio *suma = sumar(p);
     Polinomio *producto = multiplicar(p);
