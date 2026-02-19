@@ -1,0 +1,7 @@
+Problema 1:
+
+![](imagenes/SEMANA6_LABORATORIO_PROBLEMA1.png)
+
+Problema2:
+
+![](imagenes/SEMANA6_LABORATORIO_PROBLEMA2_REPORTE.png)
