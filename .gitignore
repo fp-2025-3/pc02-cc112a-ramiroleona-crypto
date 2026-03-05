@@ -1,0 +1,33 @@
+# Compilados C++
+*.o
+*.obj
+*.exe
+*.out
+*.a
+
+# Ejecutables sin extensión (Linux)
+# *
+#!*.cpp
+#!*.md
+
+# Archivos binarios generados
+*.dat
+*.bin
+
+# Carpetas de build
+build/
+input/
+# cmake-build-*/
+
+# Archivos temporales
+*~
+*.swp
+*.tmp
+
+# IDEs
+.vscode/
+.idea/
+
+# SO
+.DS_Store
+Thumbs.db
